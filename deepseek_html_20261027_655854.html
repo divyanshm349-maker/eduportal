@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex, nofollow">
+  <title>EduPortal - Class 6-8 Study Material</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Tiro+Devanagari+Hindi:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================================
+       GLOBAL & PUBLIC THEME (Educational Portal)
+       ============================================================ */
+    :root {
+      --study-bg: #f8fafc;
+      --study-paper: #ffffff;
+      --study-ink: #1e293b;
+      --study-blue: #0284c7;
+      --study-border: #e2e8f0;
+
+      /* PRIVATE THEME (Vault) */
+      --bg-1: #fbf5eb;
+      --bg-2: #f7ecdd;
+      --paper: #fffdf8;
+      --paper-warm: #fffaf2;
+      --ink: #3a2c22;
+      --ink-soft: #7a6555;
+      --ink-faint: #a89383;
+      --rose: #b8736a;
+      --rose-deep: #9c5a52;
+      --gold: #c9a961;
+      --gold-soft: #e0c99a;
+      --border: #ecdfcd;
+      --border-gold: #e6d3a8;
+      --shadow-md: 0 4px 20px rgba(58, 44, 34, 0.08);
+      --shadow-lg: 0 12px 48px rgba(58, 44, 34, 0.12);
+      --radius: 14px;
+      --font-hindi: 'Tiro Devanagari Hindi', 'Noto Serif Devanagari', serif;
+      --font-serif: 'Cormorant Garamond', 'Georgia', serif;
+      --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); background: var(--study-bg); color: var(--study-ink); line-height: 1.6; overflow-x: hidden; }
+    .hidden { display: none !important; }
+
+    /* Navbar */
+    .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: var(--study-paper); border-bottom: 1px solid var(--study-border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+    .brand { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; color: var(--study-blue); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+    .hamburger { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--study-ink); padding: 0.5rem; }
+
+    /* Public Content */
+    .content-section { padding: 3rem 2rem; max-width: 1000px; margin: 0 auto; }
+    .page-title { font-family: var(--font-serif); font-size: 2.2rem; color: var(--study-ink); margin-bottom: 1.5rem; border-bottom: 2px solid var(--study-blue); padding-bottom: 0.5rem; display: inline-block; }
+    
+    .notes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .note-card { background: var(--study-paper); padding: 1.8rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--study-border); }
+    .note-card h3 { font-size: 1.2rem; color: var(--study-blue); margin-bottom: 0.8rem; }
+    .note-card p { font-size: 0.95rem; color: #475569; margin-bottom: 1rem; }
+    .formula-box { background: #f1f5f9; padding: 1rem; border-left: 4px solid var(--study-blue); border-radius: 4px; font-family: monospace; font-size: 1rem; margin: 1rem 0; color: #334155; }
+    .note-list { margin-left: 1.2rem; font-size: 0.95rem; color: #475569; }
+    .note-list li { margin-bottom: 0.5rem; }
+
+    /* Side Menu */
+    .menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; }
+    .menu-overlay.open { opacity: 1; pointer-events: all; }
+    .side-menu { position: fixed; top: 0; right: -320px; width: 320px; height: 100vh; background: var(--study-paper); z-index: 1001; box-shadow: -5px 0 25px rgba(0,0,0,0.15); transition: right 0.3s ease; display: flex; flex-direction: column; }
+    .side-menu.open { right: 0; }
+    .menu-header { padding: 1.5rem; border-bottom: 1px solid var(--study-border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; }
+    .menu-header h2 { font-family: var(--font-serif); font-size: 1.3rem; }
+    .menu-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b; }
+    
+    .menu-links { list-style: none; overflow-y: auto; flex: 1; }
+    .menu-links li button { display: block; width: 100%; text-align: left; padding: 1rem 1.5rem; color: var(--study-ink); font-size: 0.95rem; background: none; border: none; cursor: pointer; font-weight: 500; border-bottom: 1px solid #f1f5f9; transition: background 0.2s; }
+    .menu-links li button:hover { background: #f1f5f9; color: var(--study-blue); }
+    
+    /* 15th Option (Secret Login) */
+    .vault-item { border-top: 2px solid var(--study-border); background: #f8fafc; }
+    .vault-item button { color: #475569 !important; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+    .vault-item button::before { content: '🔒'; font-size: 1rem; }
+
+    /* ============================================================
+       PRIVATE VAULT (LOCK SCREEN & READER)
+       ============================================================ */
+    #private-section { background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%); min-height: 100vh; padding: 1rem; padding-bottom: 4rem; font-family: var(--font-hindi); }
+    
+    .lock-wrap { min-height: 80vh; display: flex; align-items: center; justify-content: center; }
+    .lock-card { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 100%; max-width: 400px; padding: 2.5rem 2rem; text-align: left; }
+    .lock-title { font-family: var(--font-ui); font-size: 1.5rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; text-align: center; }
+    .lock-sub { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 2rem; text-align: center; }
+    
+    .field { margin-bottom: 1.15rem; }
+    .field label { display: block; font-family: var(--font-ui); font-size: 0.75rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 0.4rem; }
+    .field input { width: 100%; padding: 0.85rem 0.95rem; font-family: var(--font-ui); font-size: 1rem; color: var(--ink); background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; outline: none; }
+    .field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.13); }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-ui); font-weight: 600; padding: 0.7rem 1.3rem; border-radius: 8px; border: 1px solid transparent; cursor: pointer; transition: all 0.2s; text-decoration: none; min-height: 44px; }
+    .btn-primary { background: #334155; color: #fff; width: 100%; }
+    .btn-primary:hover { background: #1e293b; }
+    .btn-ghost { background: transparent; color: var(--ink-soft); border-color: var(--border); font-size: 0.85rem; padding: 0.4rem 0.8rem; }
+    .error-msg { color: #dc2626; font-family: var(--font-ui); font-size: 0.85rem; margin-top: 0.8rem; padding: 0.6rem; background: #fef2f2; border-radius: 6px; border: 1px solid #fecaca; text-align: center; }
+
+    /* Reader Feed */
+    .reader-header { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 2rem 0 1.5rem; text-align: center; }
+    .site-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 600; color: var(--ink); }
+    .header-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1rem; }
+    
+    .letters-feed { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
+    
+    .letter-card { background: linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-md); padding: 2.25rem 1.6rem; position: relative; overflow: hidden; animation: riseIn 0.4s ease both; }
+    .letter-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent 0%, var(--gold-soft) 20%, var(--gold) 50%, var(--gold-soft) 80%, transparent 100%); }
+    
+    .letter-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .letter-to-label { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+    .letter-recipient { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 600; color: var(--rose-deep); line-height: 1.2; }
+    
+    .delete-btn { background: rgba(220, 38, 38, 0.1); color: #dc2626; border: none; border-radius: 6px; padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: background 0.2s; }
+    .delete-btn:hover { background: #dc2626; color: #fff; }
+
+    .letter-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 500; font-style: italic; color: var(--ink); margin-bottom: 0.3rem; }
+    .letter-sender { font-family: var(--font-ui); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--rose); margin-bottom: 1.5rem; }
+    .letter-divider { display: flex; align-items: center; gap: 0.75rem; margin: 0.5rem 0 1.5rem; color: var(--gold); }
+    .letter-divider::before, .letter-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border-gold), transparent); }
+    .letter-content { font-family: var(--font-hindi); font-size: 1.1rem; line-height: 1.9; white-space: pre-wrap; word-wrap: break-word; }
+    .letter-meta { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--ink-faint); }
+
+    .loading-state { text-align: center; padding: 3rem 1rem; color: var(--ink-soft); font-family: var(--font-ui); }
+    .spinner { width: 24px; height: 24px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes riseIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .config-error { max-width: 500px; margin: 20vh auto; padding: 2rem; background: #fff3f3; border: 2px solid #ff4d4d; border-radius: 12px; color: #cc0000; font-family: monospace; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <div id="config-error" class="config-error hidden">
+    <h2>⚠️ Configuration Missing!</h2>
+    <p>Aapne <b>SUPABASE_URL</b> ya <b>SUPABASE_ANON_KEY</b> set nahi kiya hai.</p>
+  </div>
+
+  <!-- ============================================================
+       PUBLIC VIEW (EDUCATIONAL PORTAL)
+       ============================================================ -->
+  <div id="public-view">
+    <nav class="top-nav">
+      <div class="brand" onclick="showPage('home')">🎓 EduPortal</div>
+      <button id="hamburger-btn" class="hamburger">☰</button>
+    </nav>
+
+    <!-- HOME -->
+    <div id="page-home" class="content-section">
+      <h1 class="page-title">Welcome to Class 6-8 Study Material</h1>
+      <p style="color: #475569; margin-bottom: 2rem;">Select a subject from the menu to access comprehensive notes, formulas, and practice questions. Designed to help students grasp concepts easily.</p>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Mathematics</h3>
+          <p>Master integers, fractions, algebra, and geometry with step-by-step solutions.</p>
+        </div>
+        <div class="note-card">
+          <h3>Science</h3>
+          <p>Explore physics, chemistry, and biology concepts with real-world examples.</p>
+        </div>
+        <div class="note-card">
+          <h3>English & Hindi</h3>
+          <p>Improve grammar, vocabulary, and writing skills for academic excellence.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBJECT PAGES -->
+    <div id="page-maths" class="content-section hidden">
+      <h1 class="page-title">Mathematics Notes</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Chapter 1: Integers (पूर्णांक)</h3>
+          <p>Integers include all positive and negative numbers along with zero.</p>
+          <ul class="note-list">
+            <li><strong>Addition Rules:</strong> (+) + (+) = (+); (-) + (-) = (-)</li>
+            <li><strong>Multiplication:</strong> (-) × (-) = (+); (-) × (+) = (-)</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>Chapter 2: Fractions & Decimals</h3>
+          <p>A fraction represents a part of a whole. Decimals are another way to represent fractions.</p>
+          <div class="formula-box">a/b + c/d = (ad + bc) / bd</div>
+        </div>
+        <div class="note-card">
+          <h3>Chapter 3: Basic Algebra</h3>
+          <p>Algebra uses letters (variables) to represent unknown numbers.</p>
+          <ul class="note-list">
+            <li>Expression: 3x + 5</li>
+            <li>Equation: 3x + 5 = 20 (Solve for x)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-science" class="content-section hidden">
+      <h1 class="page-title">Science Notes</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Nutrition in Plants</h3>
+          <p>Plants prepare their own food through Photosynthesis.</p>
+          <div class="formula-box">CO₂ + H₂O + Sunlight → Glucose + O₂</div>
+          <p>Chlorophyll is the green pigment that captures sunlight.</p>
+        </div>
+        <div class="note-card">
+          <h3>Acids, Bases and Salts</h3>
+          <p>Acids are sour (e.g., Lemon), Bases are bitter (e.g., Soap).</p>
+          <ul class="note-list">
+            <li>Litmus Test: Acid turns blue litmus red; Base turns red litmus blue.</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>Motion and Time</h3>
+          <p>Speed is the distance covered per unit time.</p>
+          <div class="formula-box">Speed = Distance / Time</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-english" class="content-section hidden">
+      <h1 class="page-title">English Grammar</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Parts of Speech</h3>
+          <p>Words are categorized into 8 parts based on their function.</p>
+          <ul class="note-list">
+            <li><strong>Noun:</strong> Name of a person, place, or thing.</li>
+            <li><strong>Pronoun:</strong> Replaces a noun (He, She, It).</li>
+            <li><strong>Verb:</strong> Action word (Run, Eat).</li>
+            <li><strong>Adjective:</strong> Describes a noun (Tall, Smart).</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>Tenses</h3>
+          <p>Tenses indicate the time of action.</p>
+          <ul class="note-list">
+            <li><strong>Present:</strong> I go to school.</li>
+            <li><strong>Past:</strong> I went to school.</li>
+            <li><strong>Future:</strong> I will go to school.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-hindi" class="content-section hidden">
+      <h1 class="page-title">हिंदी व्याकरण</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>संज्ञा (Noun)</h3>
+          <p>किसी व्यक्ति, वस्तु, स्थान या भाव के नाम को संज्ञा कहते हैं।</p>
+          <ul class="note-list">
+            <li><strong>व्यक्तिवाचक:</strong> राम, दिल्ली</li>
+            <li><strong>जातिवाचक:</strong> लड़का, शहर</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>संधि (Sandhi)</h3>
+          <p>दो वर्णों के मेल से उत्पन्न विकार को संधि कहते हैं।</p>
+          <div class="formula-box">विद्या + आलय = विद्यालय (दीर्घ संधि)</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-history" class="content-section hidden">
+      <h1 class="page-title">History & Civics</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Ancient India</h3>
+          <p>The Indus Valley Civilization was one of the world's earliest urban civilizations.</p>
+          <ul class="note-list">
+            <li>Major cities: Harappa, Mohenjo-daro.</li>
+            <li>They had advanced drainage systems.</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>Indian Constitution</h3>
+          <p>The Constitution is the supreme law of India. It lays down the framework of fundamental political principles.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-geography" class="content-section hidden">
+      <h1 class="page-title">Geography</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Our Environment</h3>
+          <p>Environment includes all living and non-living things around us.</p>
+          <ul class="note-list">
+            <li><strong>Biotic:</strong> Plants, Animals, Humans.</li>
+            <li><strong>Abiotic:</strong> Air, Water, Soil.</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>Earth's Structure</h3>
+          <p>The Earth is made of three layers: Crust, Mantle, and Core.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-computer" class="content-section hidden">
+      <h1 class="page-title">Computer Science</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Basics of Computers</h3>
+          <p>A computer is an electronic device that processes data.</p>
+          <ul class="note-list">
+            <li><strong>Input Devices:</strong> Keyboard, Mouse.</li>
+            <li><strong>Output Devices:</strong> Monitor, Printer.</li>
+            <li><strong>CPU:</strong> The brain of the computer.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-sanskrit" class="content-section hidden">
+      <h1 class="page-title">Sanskrit</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>प्राथमिक व्याकरण</h3>
+          <p>संस्कृत भाषा का आधार शब्द रूप और धातु रूप हैं।</p>
+          <ul class="note-list">
+            <li>बालक (पुल्लिंग) - बालकः, बालकौ, बालकाः</li>
+            <li>लता (स्त्रीलिंग) - लता, लते, लताः</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-exams" class="content-section hidden">
+      <h1 class="page-title">Exam Preparation</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>How to Score High</h3>
+          <ul class="note-list">
+            <li>Create a study timetable and stick to it.</li>
+            <li>Revise your notes regularly.</li>
+            <li>Solve previous year question papers.</li>
+            <li>Stay hydrated and get enough sleep.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-syllabus" class="content-section hidden">
+      <h1 class="page-title">Syllabus Overview</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Term 1</h3>
+          <p>Maths: Integers, Fractions. Science: Nutrition, Motion. English: Tenses, Nouns.</p>
+        </div>
+        <div class="note-card">
+          <h3>Term 2</h3>
+          <p>Maths: Algebra, Geometry. Science: Light, Acids & Bases. English: Active/Passive Voice.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-library" class="content-section hidden">
+      <h1 class="page-title">Digital Library</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>Recommended Books</h3>
+          <ul class="note-list">
+            <li>NCERT Class 6, 7, 8 Textbooks.</li>
+            <li>RD Sharma (Mathematics).</li>
+            <li>Lakhmir Singh (Science).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-about" class="content-section hidden">
+      <h1 class="page-title">About EduPortal</h1>
+      <div class="notes-grid">
+        <div class="note-card">
+          <p>EduPortal is a free, distraction-free platform dedicated to providing high-quality study material for middle school students. Our mission is to make learning accessible and simple.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================
+       SIDE MENU (14 OPTIONS + VAULT)
+       ============================================================ -->
+  <div id="menu-overlay" class="menu-overlay"></div>
+  <nav id="side-menu" class="side-menu">
+    <div class="menu-header">
+      <h2>Menu</h2>
+      <button id="menu-close-btn" class="menu-close">✕</button>
+    </div>
+    <ul class="menu-links">
+      <li><button onclick="showPage('home')">🏠 Home</button></li>
+      <li><button onclick="showPage('maths')">📐 Mathematics</button></li>
+      <li><button onclick="showPage('science')">🔬 Science</button></li>
+      <li><button onclick="showPage('english')">📖 English Grammar</button></li>
+      <li><button onclick="showPage('hindi')">📝 Hindi Vyakaran</button></li>
+      <li><button onclick="showPage('history')">🏛️ History & Civics</button></li>
+      <li><button onclick="showPage('geography')">🌍 Geography</button></li>
+      <li><button onclick="showPage('computer')">💻 Computer Science</button></li>
+      <li><button onclick="showPage('sanskrit')">🕉️ Sanskrit</button></li>
+      <li><button onclick="showPage('exams')">📋 Exam Prep</button></li>
+      <li><button onclick="showPage('syllabus')">📅 Syllabus</button></li>
+      <li><button onclick="showPage('library')">📚 Digital Library</button></li>
+      <li><button onclick="showPage('about')">ℹ️ About Us</button></li>
+      <li><button onclick="alert('No new notices available.')">🔔 Notice Board</button></li>
+      
+      <!-- 15th Option: The Vault -->
+      <li class="vault-item">
+        <button id="open-private-btn">Member Login</button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       PRIVATE VAULT (LOCK SCREEN + READER FEED)
+       ============================================================ -->
+  <div id="private-section" class="hidden">
+    
+    <!-- Lock Screen -->
+    <div id="lock-view" class="lock-wrap hidden">
+      <div class="lock-card">
+        <div class="lock-title">Member Area</div>
+        <div class="lock-sub">Enter credentials to access secured content.</div>
+        
+        <form id="login-form">
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="login-email" required placeholder="admin@example.com">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="login-password" required placeholder="••••••••">
+          </div>
+          <button type="submit" id="login-btn" class="btn btn-primary">Secure Login</button>
+          <p id="login-error" class="error-msg hidden"></p>
+        </form>
+        <div style="margin-top: 1.5rem; text-align: center;">
+          <button id="back-to-public" class="btn btn-ghost">← Return to Portal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reader View (Time-wise Feed) -->
+    <div id="reader-view" class="hidden">
+      <header class="reader-header">
+        <h1 class="site-title">Tumhare Naam Ek Khat</h1>
+        <div class="header-actions">
+          <a href="admin.html" class="btn btn-ghost">✎ Write New</a>
+          <button id="refresh-btn" class="btn btn-ghost">↻ Refresh Feed</button>
+          <button id="logout-btn" class="btn btn-ghost">Lock & Exit</button>
+        </div>
+      </header>
+
+      <main class="letters-feed" id="letters-feed">
+        <!-- Loading spinner inside feed -->
+        <div id="loading" class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading secure feed…</p>
+        </div>
+        <div id="empty-state" class="loading-state hidden">
+          <p>No records found in the vault.</p>
+        </div>
+        <!-- Letters will be injected here -->
+      </main>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* ============================================================
+       🚨 APNI KEYS YAHAN DAALO 🚨
+       ============================================================ */
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';           
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; 
+    /* ============================================================ */
+
+    if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || typeof supabase === 'undefined') {
+      document.getElementById('config-error').classList.remove('hidden');
+      throw new Error("Config missing");
+    }
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const $ = (sel) => document.querySelector(sel);
+
+    // Elements
+    const publicView = $('#public-view');
+    const privateSection = $('#private-section');
+    const lockView = $('#lock-view');
+    const readerView = $('#reader-view');
+    const lettersFeed = $('#letters-feed');
+    
+    // Menu
+    const sideMenu = $('#side-menu');
+    const menuOverlay = $('#menu-overlay');
+
+    // Auth State
+    let currentUser = null;
+
+    // ============================================================
+    // UI LOGIC (Menu & Navigation)
+    // ============================================================
+    function openMenu() { sideMenu.classList.add('open'); menuOverlay.classList.add('open'); }
+    function closeMenu() { sideMenu.classList.remove('open'); menuOverlay.classList.remove('open'); }
+    
+    function showPage(pageId) {
+      document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById('page-' + pageId).classList.remove('hidden');
+      closeMenu();
+    }
+    window.showPage = showPage; // Global
+
+    $('#hamburger-btn').addEventListener('click', openMenu);
+    $('#menu-close-btn').addEventListener('click', closeMenu);
+    menuOverlay.addEventListener('click', closeMenu);
+
+    // Open Vault
+    $('#open-private-btn').addEventListener('click', () => {
+      closeMenu();
+      publicView.classList.add('hidden');
+      privateSection.classList.remove('hidden');
+      
+      if (currentUser) {
+        showReader();
+      } else {
+        showLock();
+      }
+    });
+
+    $('#back-to-public').addEventListener('click', goToPublic);
+    
+    function goToPublic() {
+      privateSection.classList.add('hidden');
+      publicView.classList.remove('hidden');
+      showPage('home');
+    }
+
+    function showLock() {
+      lockView.classList.remove('hidden');
+      readerView.classList.add('hidden');
+    }
+
+    function showReader() {
+      lockView.classList.add('hidden');
+      readerView.classList.remove('hidden');
+      loadAllMessages();
+    }
+
+    // ============================================================
+    // AUTH LOGIC
+    // ============================================================
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      currentUser = session?.user || null;
+      if (currentUser && !privateSection.classList.contains('hidden')) {
+        showReader();
+      }
+    });
+
+    $('#login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = $('#login-btn');
+      const err = $('#login-error');
+      
+      err.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Authenticating...';
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: $('#login-email').value.trim(),
+        password: $('#login-password').value
+      });
+
+      btn.disabled = false;
+      btn.textContent = 'Secure Login';
+
+      if (error) {
+        err.textContent = "Invalid credentials. Access denied.";
+        err.classList.remove('hidden');
+        return;
+      }
+      currentUser = data.user;
+      showReader();
+    });
+
+    $('#logout-btn').addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      currentUser = null;
+      goToPublic();
+    });
+
+    // ============================================================
+    // READER LOGIC (Feed & Delete)
+    // ============================================================
+    async function loadAllMessages() {
+      const loading = $('#loading');
+      const empty = $('#empty-state');
+      
+      // Remove all existing letter cards, keep loading/empty states
+      document.querySelectorAll('.letter-card').forEach(el => el.remove());
+
+      loading.classList.remove('hidden');
+      empty.classList.add('hidden');
+
+      const { data, error } = await supabaseClient
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: false }); // Latest first
+
+      loading.classList.add('hidden');
+
+      if (error || !data || data.length === 0) {
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      // Render each message
+      data.forEach(msg => {
+        renderMessageCard(msg);
+      });
+    }
+
+    function renderMessageCard(msg) {
+      const card = document.createElement('article');
+      card.className = 'letter-card';
+
+      // Header Row with Delete Button
+      const headerRow = document.createElement('div');
+      headerRow.className = 'letter-header-row';
+      
+      const titleArea = document.createElement('div');
+      if (msg.recipient_name) {
+        const label = document.createElement('div');
+        label.className = 'letter-to-label';
+        label.textContent = 'Khat inke naam';
+        titleArea.appendChild(label);
+        
+        const recipient = document.createElement('div');
+        recipient.className = 'letter-recipient';
+        recipient.textContent = msg.recipient_name;
+        titleArea.appendChild(recipient);
+      }
+      
+      const delBtn = document.createElement('button');
+      delBtn.className = 'delete-btn';
+      delBtn.innerHTML = '🗑️ Delete';
+      delBtn.onclick = () => deleteMessage(msg.id, card);
+
+      headerRow.appendChild(titleArea);
+      headerRow.appendChild(delBtn);
+      card.appendChild(headerRow);
+
+      // Title
+      if (msg.title) {
+        const title = document.createElement('h2');
+        title.className = 'letter-title';
+        title.textContent = msg.title;
+        card.appendChild(title);
+      }
+
+      // Sender
+      if (msg.sender_label) {
+        const sender = document.createElement('p');
+        sender.className = 'letter-sender';
+        sender.textContent = `— ${msg.sender_label}`;
+        card.appendChild(sender);
+      }
+
+      // Divider
+      const divider = document.createElement('div');
+      divider.className = 'letter-divider';
+      divider.innerHTML = '<span>❦</span>';
+      card.appendChild(divider);
+
+      // Content
+      const content = document.createElement('div');
+      content.className = 'letter-content';
+      content.textContent = msg.content;
+      card.appendChild(content);
+
+      // Meta (Date)
+      if (msg.created_at) {
+        const meta = document.createElement('footer');
+        meta.className = 'letter-meta';
+        const dateStr = new Date(msg.created_at).toLocaleString('en-IN', {
+          year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        meta.textContent = `Received on: ${dateStr}`;
+        card.appendChild(meta);
+      }
+
+      lettersFeed.appendChild(card);
+    }
+
+    async function deleteMessage(id, cardElement) {
+      if (!confirm("Are you sure you want to permanently delete this letter?")) return;
+      
+      const { error } = await supabaseClient
+        .from('messages')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        alert("Error deleting: " + error.message);
+        return;
+      }
+
+      // Animate and remove from UI
+      cardElement.style.opacity = '0';
+      cardElement.style.transform = 'scale(0.95)';
+      cardElement.style.transition = 'all 0.3s ease';
+      setTimeout(() => {
+        cardElement.remove();
+        // Check if feed is empty
+        if (document.querySelectorAll('.letter-card').length === 0) {
+          $('#empty-state').classList.remove('hidden');
+        }
+      }, 300);
+    }
+
+    $('#refresh-btn').addEventListener('click', loadAllMessages);
+
+    // Initial Auth Check
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+      currentUser = session?.user || null;
+    });
+
+  </script>
+</body>
+</html>
